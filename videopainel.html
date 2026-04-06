@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexora - Curso Completo do Painel</title>
+    <title>Inove - Curso do Painel</title>
     <style>
         :root {
             --primary: #3b82f6;
@@ -46,29 +46,28 @@
         .section-title {
             display: flex; align-items: center; gap: 10px;
             margin: 25px 0 10px; color: var(--accent);
-            font-size: 0.9rem; text-transform: uppercase; font-weight: bold;
-            border-bottom: 1px solid #334155; padding-bottom: 5px;
+            font-size: 1rem; text-transform: uppercase; font-weight: bold;
         }
 
-        .timeline { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
+        .timeline { display: flex; flex-direction: column; gap: 8px; }
 
         .time-card {
-            background: var(--card-bg); padding: 10px 12px; border-radius: 10px;
+            background: var(--card-bg); padding: 12px; border-radius: 10px;
             display: flex; align-items: center; gap: 12px;
             cursor: pointer; border: 1px solid #334155; transition: 0.2s;
         }
 
-        .time-card:hover { border-color: var(--primary); background: #24344d; transform: translateX(5px); }
+        .time-card:hover { border-color: var(--primary); background: #24344d; transform: scale(1.02); }
 
         .timestamp {
-            background: var(--video-red); color: white; padding: 2px 6px;
-            border-radius: 5px; font-weight: bold; font-size: 0.75rem; min-width: 50px; text-align: center;
+            background: var(--video-red); color: white; padding: 3px 8px;
+            border-radius: 5px; font-weight: bold; font-size: 0.8rem; min-width: 55px; text-align: center;
         }
 
-        .topic-text { font-size: 0.85rem; flex: 1; color: #cbd5e1; }
+        .topic-text { font-size: 0.9rem; flex: 1; }
 
         .footer-note {
-            text-align: center; margin-top: 20px; padding: 20px;
+            text-align: center; margin-top: 30px; padding: 20px;
             color: #64748b; font-size: 0.8rem; border-top: 1px solid #334155;
         }
     </style>
@@ -77,8 +76,8 @@
 
 <div class="container">
     <header>
-        <h1>🎥 Treinamento Nexora</h1>
-        <p>Guia Completo de Operação do Painel</p>
+        <h1>🎥 Treinamento Painel</h1>
+        <p>Clique nos tópicos para navegar pelo tutorial</p>
     </header>
 
     <div class="video-container">
@@ -89,112 +88,67 @@
 
     <div class="timeline">
         
-        <div class="section-title">👤 Gestão de Clientes</div>
+        <div class="section-title">📍 Primeiros Passos</div>
         <div class="time-card" onclick="seekTo(0)">
             <div class="timestamp">00:00</div>
-            <div class="topic-text">Dashboard / Informações Iniciais</div>
+            <div class="topic-text">Início / Dashboard de Clientes</div>
         </div>
         <div class="time-card" onclick="seekTo(44)">
             <div class="timestamp">00:44</div>
-            <div class="topic-text">🛠️ Como gerar um teste</div>
+            <div class="topic-text">Como gerar um teste rápido</div>
         </div>
         <div class="time-card" onclick="seekTo(100)">
             <div class="timestamp">01:40</div>
-            <div class="topic-text">📋 Entendendo a Lista e envio ao cliente</div>
+            <div class="topic-text">Entendendo a Lista (Informações para o cliente)</div>
         </div>
         <div class="time-card" onclick="seekTo(324)">
             <div class="timestamp">05:24</div>
-            <div class="topic-text">🔄 Tornar teste em Mensal/Semestral/Anual</div>
-        </div>
-        <div class="time-card" onclick="seekTo(430)">
-            <div class="timestamp">07:10</div>
-            <div class="topic-text">🔍 Localizar e nomear cliente no painel</div>
+            <div class="topic-text">Ativar Teste (Mensal, Semestral ou Anual)</div>
         </div>
 
-        <div class="section-title" style="color: #8b5cf6;">👥 Gestão de Revenda</div>
+        <div class="section-title" style="color: #8b5cf6;">👥 Gerenciar Revenda</div>
         <div class="time-card" onclick="seekTo(490)">
             <div class="timestamp">08:10</div>
-            <div class="topic-text">🛒 Criar revenda e liberar créditos</div>
+            <div class="topic-text">Criar revenda e liberar créditos</div>
         </div>
         <div class="time-card" onclick="seekTo(624)">
             <div class="timestamp">10:24</div>
-            <div class="topic-text">📊 Quantidade de clientes do seu revendedor</div>
+            <div class="topic-text">Ver quantos clientes sua revenda possui</div>
         </div>
 
-        <div class="section-title" style="color: #f59e0b;">🖥️ Monitoramento e Vendas</div>
-        <div class="time-card" onclick="seekTo(674)">
-            <div class="timestamp">11:14</div>
-            <div class="topic-text">📈 Total de clientes e cobranças</div>
-        </div>
+        <div class="section-title" style="color: #f59e0b;">📊 Funções Avançadas</div>
         <div class="time-card" onclick="seekTo(753)">
             <div class="timestamp">12:33</div>
-            <div class="topic-text">📺 Ver o que o cliente assiste (Ao Vivo)</div>
-        </div>
-        <div class="time-card" onclick="seekTo(781)">
-            <div class="timestamp">13:01</div>
-            <div class="topic-text">🛍️ Detalhes de vendas e renovações</div>
+            <div class="topic-text">Ver o que o cliente está assistindo agora</div>
         </div>
         <div class="time-card" onclick="seekTo(802)">
             <div class="timestamp">13:22</div>
-            <div class="topic-text">🔄 Migração de clientes (Outro Servidor)</div>
-        </div>
-        <div class="time-card" onclick="seekTo(884)">
-            <div class="timestamp">14:44</div>
-            <div class="topic-text">🔎 Localizar cliente pela lista</div>
+            <div class="topic-text">Como fazer Migração de outro servidor</div>
         </div>
 
         <div class="section-title" style="color: #10b981;">⚙️ Automação e Financeiro</div>
         <div class="time-card" onclick="seekTo(933)">
             <div class="timestamp">15:33</div>
-            <div class="topic-text">💳 Configurar Conta Bancária (Pix Automático)</div>
-        </div>
-        <div class="time-card" onclick="seekTo(1108)">
-            <div class="timestamp">18:28</div>
-            <div class="topic-text">🔄 Como o cliente renova sozinho</div>
+            <div class="topic-text">Configurar conta para recebimento automático</div>
         </div>
         <div class="time-card" onclick="seekTo(1136)">
             <div class="timestamp">18:56</div>
-            <div class="topic-text">✉️ Mensagem Automática de Renovação</div>
+            <div class="topic-text">Mensagens Automáticas de Renovação</div>
         </div>
         <div class="time-card" onclick="seekTo(1364)">
             <div class="timestamp">22:44</div>
-            <div class="topic-text">🤖 Enviar teste automático (Sem suporte)</div>
-        </div>
-        <div class="time-card" onclick="seekTo(1415)">
-            <div class="timestamp">23:35</div>
-            <div class="topic-text">💡 Dica de Ouro: Prática de Renovação</div>
-        </div>
-        <div class="time-card" onclick="seekTo(1535)">
-            <div class="timestamp">25:35</div>
-            <div class="topic-text">📋 Onde colocar o número para automação</div>
-        </div>
-
-        <div class="section-title" style="color: #ef4444;">🛠️ Configurações de Valores</div>
-        <div class="time-card" onclick="seekTo(1598)">
-            <div class="timestamp">26:38</div>
-            <div class="topic-text">💰 Alterar valor dos planos/pacotes</div>
-        </div>
-        <div class="time-card" onclick="seekTo(1644)">
-            <div class="timestamp">27:24</div>
-            <div class="topic-text">🌐 Link de automação para novo revendedor</div>
-        </div>
-        <div class="time-card" onclick="seekTo(1678)">
-            <div class="timestamp">27:58</div>
-            <div class="topic-text">💵 Revenda comprando créditos direto</div>
-        </div>
-        <div class="time-card" onclick="seekTo(1711)">
-            <div class="timestamp">28:31</div>
-            <div class="topic-text">✏️ Alterar valor dos créditos das revendas</div>
+            <div class="topic-text">Configurar Teste Automático</div>
         </div>
 
     </div>
 
     <div class="footer-note">
-        &copy; 2026 Nexora Suporte - Clique no tempo para navegar.
+        &copy; 2026 Inove Suporte - Clique no tempo para navegar.
     </div>
 </div>
 
 <script>
+    // Carrega a API do YouTube
     var tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -205,12 +159,11 @@
         player = new YT.Player('videoPlayer', {
             height: '100%',
             width: '100%',
-            videoId: 'FdryOQ1qwkA',
+            videoId: 'FdryOQ1qwkA', // ID do seu vídeo
             playerVars: {
                 'playsinline': 1,
                 'rel': 0,
-                'modestbranding': 1,
-                'showinfo': 0
+                'modestbranding': 1
             }
         });
     }
