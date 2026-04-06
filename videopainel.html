@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexora - Curso do Painel</title>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-light: #f8fafc;
+            --accent: #10b981;
+            --video-red: #ff0000;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            margin: 0; padding: 15px;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .container { width: 100%; max-width: 700px; }
+
+        header { text-align: center; padding: 20px 0; }
+        header h1 { color: var(--primary); margin: 0; }
+
+        .video-container {
+            position: sticky; top: 10px; z-index: 100;
+            background: var(--dark-bg); padding-bottom: 10px;
+        }
+
+        .video-wrapper {
+            position: relative; padding-bottom: 56.25%; height: 0;
+            overflow: hidden; border-radius: 15px;
+            background: #000; border: 2px solid #334155;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        #videoPlayer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
+        }
+
+        .section-title {
+            display: flex; align-items: center; gap: 10px;
+            margin: 25px 0 10px; color: var(--accent);
+            font-size: 1rem; text-transform: uppercase; font-weight: bold;
+        }
+
+        .timeline { display: flex; flex-direction: column; gap: 8px; }
+
+        .time-card {
+            background: var(--card-bg); padding: 12px; border-radius: 10px;
+            display: flex; align-items: center; gap: 12px;
+            cursor: pointer; border: 1px solid #334155; transition: 0.2s;
+        }
+
+        .time-card:hover { border-color: var(--primary); background: #24344d; transform: scale(1.02); }
+
+        .timestamp {
+            background: var(--video-red); color: white; padding: 3px 8px;
+            border-radius: 5px; font-weight: bold; font-size: 0.8rem; min-width: 55px; text-align: center;
+        }
+
+        .topic-text { font-size: 0.9rem; flex: 1; }
+
+        .footer-note {
+            text-align: center; margin-top: 30px; padding: 20px;
+            color: #64748b; font-size: 0.8rem; border-top: 1px solid #334155;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🎥 Treinamento Painel</h1>
+        <p>Clique nos tópicos para navegar pelo tutorial</p>
+    </header>
+
+    <div class="video-container">
+        <div class="video-wrapper">
+            <div id="videoPlayer"></div>
+        </div>
+    </div>
+
+    <div class="timeline">
+        
+        <div class="section-title">📍 Primeiros Passos</div>
+        <div class="time-card" onclick="seekTo(0)">
+            <div class="timestamp">00:00</div>
+            <div class="topic-text">Início / Dashboard de Clientes</div>
+        </div>
+        <div class="time-card" onclick="seekTo(44)">
+            <div class="timestamp">00:44</div>
+            <div class="topic-text">Como gerar um teste rápido</div>
+        </div>
+        <div class="time-card" onclick="seekTo(100)">
+            <div class="timestamp">01:40</div>
+            <div class="topic-text">Entendendo a Lista (Informações para o cliente)</div>
+        </div>
+        <div class="time-card" onclick="seekTo(324)">
+            <div class="timestamp">05:24</div>
+            <div class="topic-text">Ativar Teste (Mensal, Semestral ou Anual)</div>
+        </div>
+
+        <div class="section-title" style="color: #8b5cf6;">👥 Gerenciar Revenda</div>
+        <div class="time-card" onclick="seekTo(490)">
+            <div class="timestamp">08:10</div>
+            <div class="topic-text">Criar revenda e liberar créditos</div>
+        </div>
+        <div class="time-card" onclick="seekTo(624)">
+            <div class="timestamp">10:24</div>
+            <div class="topic-text">Ver quantos clientes sua revenda possui</div>
+        </div>
+
+        <div class="section-title" style="color: #f59e0b;">📊 Funções Avançadas</div>
+        <div class="time-card" onclick="seekTo(753)">
+            <div class="timestamp">12:33</div>
+            <div class="topic-text">Ver o que o cliente está assistindo agora</div>
+        </div>
+        <div class="time-card" onclick="seekTo(802)">
+            <div class="timestamp">13:22</div>
+            <div class="topic-text">Como fazer Migração de outro servidor</div>
+        </div>
+
+        <div class="section-title" style="color: #10b981;">⚙️ Automação e Financeiro</div>
+        <div class="time-card" onclick="seekTo(933)">
+            <div class="timestamp">15:33</div>
+            <div class="topic-text">Configurar conta para recebimento automático</div>
+        </div>
+        <div class="time-card" onclick="seekTo(1136)">
+            <div class="timestamp">18:56</div>
+            <div class="topic-text">Mensagens Automáticas de Renovação</div>
+        </div>
+        <div class="time-card" onclick="seekTo(1364)">
+            <div class="timestamp">22:44</div>
+            <div class="topic-text">Configurar Teste Automático</div>
+        </div>
+
+    </div>
+
+    <div class="footer-note">
+        &copy; 2026 Nexora Suporte - Clique no tempo para navegar.
+    </div>
+</div>
+
+<script>
+    // Carrega a API do YouTube
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    var player;
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('videoPlayer', {
+            height: '100%',
+            width: '100%',
+            videoId: 'FdryOQ1qwkA', // ID do seu vídeo
+            playerVars: {
+                'playsinline': 1,
+                'rel': 0,
+                'modestbranding': 1
+            }
+        });
+    }
+
+    function seekTo(seconds) {
+        if (player && player.seekTo) {
+            player.seekTo(seconds, true);
+            player.playVideo();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+</script>
+
+</body>
+</html>

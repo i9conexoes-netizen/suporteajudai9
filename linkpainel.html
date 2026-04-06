@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexora - Links Oficiais</title>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-light: #f8fafc;
+            --accent: #10b981;
+            --telegram: #0088cc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        header {
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .main-link {
+            background: linear-gradient(135deg, var(--primary), #1d4ed8);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+            transition: transform 0.3s;
+            display: block;
+            text-decoration: none;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .main-link:hover {
+            transform: scale(1.03);
+        }
+
+        .main-link h2 { margin: 0; font-size: 1.4rem; }
+        .main-link p { margin: 5px 0 0; opacity: 0.9; font-size: 0.9rem; }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            color: #475569;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #334155;
+            margin: 0 10px;
+        }
+
+        .link-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .link-item {
+            background: var(--card-bg);
+            padding: 18px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #334155;
+            transition: 0.3s;
+        }
+
+        .link-item:hover {
+            background: #2d3748;
+            border-color: var(--telegram);
+            padding-left: 25px;
+        }
+
+        .link-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .icon-circle {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 136, 204, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--telegram);
+        }
+
+        .link-text b { display: block; font-size: 1rem; }
+        .link-text span { font-size: 0.75rem; color: #94a3b8; }
+
+        .arrow { color: #475569; font-weight: bold; }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>I9 Infinity</h1>
+        <p>Central de Acessos Rápidos</p>
+    </header>
+
+    <a href="https://infinity.panelbr.site" target="_blank" class="main-link">
+        <h2>🖥️ Acessar Painel</h2>
+        <p>Gerencie seus clientes e créditos</p>
+    </a>
+
+    <div class="divider">Links Disponíveis</div>
+
+    <div class="link-list">
+        
+        <a href="https://t.me/+RCNoSZRkmkI0NmJh" target="_blank" class="link-item">
+            <div class="link-info">
+                <div class="icon-circle">📢</div>
+                <div class="link-text">
+                    <b>Canal de Avisos</b>
+                    <span>Fique por dentro das novidades</span>
+                </div>
+            </div>
+            <div class="arrow">→</div>
+        </a>
+
+        <a href="https://t.me/+k5Pc6I2gDydjZWJh" target="_blank" class="link-item">
+            <div class="link-info">
+                <div class="icon-circle">📂</div>
+                <div class="link-text">
+                    <b>Material de Divulgação</b>
+                    <span>Banners, logos e vídeos</span>
+                </div>
+            </div>
+            <div class="arrow">→</div>
+        </a>
+
+        <a href="https://t.me/suporteinfinity1" target="_blank" class="link-item">
+            <div class="link-info">
+                <div class="icon-circle">🎧</div>
+                <div class="link-text">
+                    <b>Suporte com Atendentes</b>
+                    <span>Seg a Sáb: 10h às 22h</span>
+                </div>
+            </div>
+            <div class="arrow">→</div>
+        </a>
+
+    </div>
+
+    <footer>
+        &copy; 2026 Nexora Infinity - Todos os direitos reservados.
+    </footer>
+</div>
+
+</body>
+</html>
