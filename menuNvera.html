@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inove - Ajuda ao Revendedor</title>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-light: #f8fafc;
+            --accent: #10b981;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .menu-item {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: white;
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            background: #24344d;
+        }
+
+        .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .menu-item h3 {
+            margin: 10px 0;
+            font-size: 1.2rem;
+            color: var(--text-light);
+        }
+
+        .menu-item p {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .btn-link {
+            margin-top: 15px;
+            background: var(--primary);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .btn-painel { background: var(--accent); }
+        .btn-curso { background: var(--warning); }
+        .btn-material { background: #8b5cf6; }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🚀 Central do Revendedor Nova Era</h1>
+        <p>Tudo o que você precisa para alavancar suas vendas</p>
+    </header>
+    <div class="menu-grid">
+
+        <a href="appsnvera.html" class="menu-item">
+            <div class="icon">📱</div>
+            <h3>Ajuda com Apps</h3>
+            <p>Tutoriais de instalação para Smart TVs, Celular e TV Box.</p>
+            <div class="btn-link">Ver Tutoriais</div>
+        </a>
+        
+        <a href="linksnvera.html" target="_blank" class="menu-item">
+            <div class="icon">🖥️</div>
+            <h3>Links Painel/Suporte/Grupo/etc</h3>
+            <p>Acesse os links desde painel ao suporte e materiais.</p>
+            <div class="btn-link btn-painel">Acessar Agora</div>
+        </a>
+
+        <a href="videopainelnvera.html" target="_blank" class="menu-item">
+            <div class="icon">🎓</div>
+            <h3>Curso do Painel</h3>
+            <p>Aprenda a criar testes, renovar e gerenciar sua rede.</p>
+            <div class="btn-link btn-curso">Assistir Aulas</div>
+        </a>
+
+        <a href="materiais.html" target="_blank" class="menu-item">
+            <div class="icon">📂</div>
+            <h3>Material de Divulgação</h3>
+            <p>Logos, banners e vídeos prontos para suas redes sociais.</p>
+            <div class="btn-link btn-material">Baixar Arquivos</div>
+        </a>
+
+        <a href="https://fast.com/pt/" target="_blank" class="menu-item">
+            <div class="icon">⚡</div>
+            <h3>Teste de Velocidade</h3>
+            <p>Verifique a conexão do seu cliente antes do suporte.</p>
+            <div class="btn-link" style="background: #475569;">Testar Conexão</div>
+        </a>
+
+    </div>
+
+    <footer>
+        &copy; 2026 Nexora Suporte - Todos os direitos reservados.
+    </footer>
+</div>
+
+</body>
+</html>
