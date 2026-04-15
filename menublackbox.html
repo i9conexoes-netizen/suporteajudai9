@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>BLACK BOX · Em construção</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0f;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, 'Poppins', 'Orbitron', monospace;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #eef5ff;
+            padding: 2rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* fundo com grade futurista + partículas sutis */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(20, 20, 40, 0.4) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(20, 20, 40, 0.4) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* efeito glow overlay */
+        .glow-orb {
+            position: fixed;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            top: -20%;
+            right: -20%;
+            z-index: 0;
+            filter: blur(70px);
+            pointer-events: none;
+        }
+
+        .glow-orb2 {
+            position: fixed;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(80, 60, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+            bottom: -30%;
+            left: -20%;
+            border-radius: 50%;
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 820px;
+            width: 100%;
+            background: rgba(8, 8, 14, 0.68);
+            backdrop-filter: blur(12px);
+            border-radius: 3rem;
+            border: 1px solid rgba(0, 255, 255, 0.25);
+            box-shadow: 0 25px 45px rgba(0,0,0,0.5), 0 0 0 1px rgba(0, 255, 255, 0.1) inset;
+            padding: 2.5rem 2rem;
+            position: relative;
+            z-index: 10;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        /* animação de scanner/linha */
+        .scanner-line {
+            position: absolute;
+            top: 0;
+            left: 5%;
+            width: 90%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, cyan, #aa66ff, cyan, transparent);
+            filter: blur(1px);
+            animation: scanMove 4s infinite linear;
+            opacity: 0.7;
+            border-radius: 100%;
+        }
+
+        @keyframes scanMove {
+            0% { top: 0%; opacity: 0.3; }
+            50% { top: 98%; opacity: 0.9; }
+            100% { top: 0%; opacity: 0.3; }
+        }
+
+        /* ícone BLACK BOX principal */
+        .logo {
+            font-size: 3.6rem;
+            font-weight: 800;
+            letter-spacing: 6px;
+            background: linear-gradient(135deg, #ffffff, #4efff0, #aa88ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 12px rgba(0,255,255,0.4);
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .logo span {
+            font-size: 2rem;
+            background: none;
+            background-clip: unset;
+            -webkit-background-clip: unset;
+            color: #b8f2ff;
+            text-shadow: none;
+            letter-spacing: 2px;
+        }
+
+        .sub {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #8eace6;
+            border-top: 1px dashed rgba(0, 255, 255, 0.4);
+            display: inline-block;
+            padding-top: 8px;
+            margin-top: 6px;
+            font-weight: 300;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 1.2rem 0 0.8rem 0;
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(145deg, #f0f9ff, #a0f0ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .badge-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: #0f0f1a;
+            padding: 0.5rem 1.4rem;
+            border-radius: 60px;
+            margin: 1rem 0 1.2rem;
+            border: 1px solid #2affcc40;
+            backdrop-filter: blur(4px);
+        }
+
+        .pulse {
+            width: 12px;
+            height: 12px;
+            background: #2affcc;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #2affcc;
+            animation: pulseAnim 1.6s infinite;
+        }
+
+        @keyframes pulseAnim {
+            0% { opacity: 0.4; transform: scale(0.8);}
+            100% { opacity: 1; transform: scale(1.2);}
+        }
+
+        .badge-status span {
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #baf0ff;
+        }
+
+        .message {
+            font-size: 1.25rem;
+            line-height: 1.5;
+            color: #cddcff;
+            margin: 1.8rem 0;
+            font-weight: 400;
+            background: rgba(0, 10, 20, 0.5);
+            padding: 1rem 1.5rem;
+            border-radius: 2rem;
+            border-left: 3px solid cyan;
+            border-right: 3px solid #aa66ff;
+        }
+
+        .construction-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.8rem;
+            margin: 2rem 0 1.5rem;
+        }
+
+        .card {
+            background: rgba(12, 12, 22, 0.7);
+            border-radius: 1.6rem;
+            padding: 0.8rem 1.4rem;
+            min-width: 140px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            transition: all 0.2s;
+        }
+
+        .card i {
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+
+        .card p {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #c0d0ff;
+            text-transform: uppercase;
+        }
+
+        .progress-area {
+            margin: 2rem 0 1rem;
+        }
+
+        .progress-bar-bg {
+            background: #191e2e;
+            border-radius: 40px;
+            height: 12px;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: inset 0 1px 4px #00000055;
+        }
+
+        .progress-fill {
+            width: 68%;
+            height: 100%;
+            background: linear-gradient(90deg, #00ffd0, #8a6eff);
+            border-radius: 40px;
+            box-shadow: 0 0 6px cyan;
+            position: relative;
+            animation: loadingPulse 2s infinite alternate ease;
+        }
+
+        @keyframes loadingPulse {
+            0% { opacity: 0.7; width: 68%;}
+            100% { opacity: 1; width: 74%;}
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            margin-top: 8px;
+            color: #87a9dd;
+            font-family: monospace;
+        }
+
+        .timer-note {
+            font-size: 0.8rem;
+            font-family: monospace;
+            background: #00000055;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            display: inline-block;
+            margin-top: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .footer-note {
+            margin-top: 2.2rem;
+            font-size: 0.7rem;
+            color: #4f6f9f;
+            border-top: 1px solid rgba(0, 255, 255, 0.2);
+            padding-top: 1.4rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-note a {
+            color: #73d0ff;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .footer-note a:hover {
+            color: white;
+            text-shadow: 0 0 4px cyan;
+        }
+
+        /* responsivo */
+        @media (max-width: 560px) {
+            .container {
+                padding: 1.8rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .logo {
+                font-size: 2.2rem;
+                letter-spacing: 3px;
+            }
+            .message {
+                font-size: 1rem;
+            }
+            .card {
+                min-width: 110px;
+                padding: 0.5rem 0.8rem;
+            }
+        }
+
+        /* animação de digitação pseudo */
+        .glitch-text {
+            animation: glitchFlick 3s infinite;
+        }
+
+        @keyframes glitchFlick {
+            0%, 100% { text-shadow: 0 0 0px cyan; }
+            95% { text-shadow: -1px 0px 2px #ff66cc, 1px 0px 2px #00ffff; }
+        }
+
+        button.dummy {
+            background: none;
+            border: 1px solid cyan;
+            padding: 8px 20px;
+            border-radius: 2rem;
+            color: cyan;
+            font-family: monospace;
+            font-weight: bold;
+            margin-top: 12px;
+            cursor: default;
+            transition: 0.2s;
+        }
+        button.dummy:hover {
+            background: rgba(0,255,255,0.1);
+            box-shadow: 0 0 6px cyan;
+        }
+
+    </style>
+</head>
+<body>
+<div class="glow-orb"></div>
+<div class="glow-orb2"></div>
+
+<div class="container">
+    <div class="scanner-line"></div>
+    
+    <div>
+        <div class="logo">BLACK BOX <span>//</span></div>
+        <div class="sub">SUPORTE TÉCNICO & SOLUÇÕES</div>
+    </div>
+
+    <h1 class="glitch-text">EM CONSTRUÇÃO</h1>
+    
+    <div class="badge-status">
+        <div class="pulse"></div>
+        <span>ESTADO: DESENVOLVIMENTO ATIVO</span>
+    </div>
+
+    <div class="message">
+        ⚡ O site de ajuda <strong style="color:#7efff0;">BLACK BOX</strong> está sendo preparado com tecnologia avançada e uma nova experiência de suporte.<br>
+        Em breve você terá acesso à base de conhecimento, assistência 24/7 e ferramentas exclusivas.
+    </div>
+
+    <div class="construction-grid">
+        <div class="card">
+            <i>🛠️</i>
+            <p>Base de Dados</p>
+            <small style="color:#b0d4ff;">87%</small>
+        </div>
+        <div class="card">
+            <i>🔐</i>
+            <p>Sistema de Tickets</p>
+            <small style="color:#b0d4ff;">64%</small>
+        </div>
+        <div class="card">
+            <i>🌐</i>
+            <p>Interface IA</p>
+            <small style="color:#b0d4ff;">42%</small>
+        </div>
+        <div class="card">
+            <i>⚙️</i>
+            <p>Otimização</p>
+            <small style="color:#b0d4ff;">71%</small>
+        </div>
+    </div>
+
+    <div class="progress-area">
+        <div class="progress-bar-bg">
+            <div class="progress-fill"></div>
+        </div>
+        <div class="progress-stats">
+            <span>🚧 WORK IN PROGRESS</span>
+            <span>📡 PREVISÃO: EM BREVE</span>
+        </div>
+        <div class="timer-note">
+            🔄 inicializando protocolos de ajuda... aguarde o lançamento oficial
+        </div>
+    </div>
+
+    <button class="dummy" aria-label="notificar em breve">🔔 NOTIFICAR-ME</button>
+    
+    <div class="footer-note">
+        <span>© BLACK BOX HELP DESK — 2025</span>
+        <a href="#" style="cursor:default;">🔒 Ambiente seguro</a>
+        <a href="#" style="cursor:default;">📡 status: construção</a>
+    </div>
+</div>
+
+<!-- pequeno script para simular contagem ou apenas console -->
+<script>
+    (function(){
+        // apenas efeito interativo sutil no botão (mostrar alerta amigável)
+        const btn = document.querySelector('.dummy');
+        if(btn) {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                // simula um toast simples (alert moderno com estilo)
+                const toast = document.createElement('div');
+                toast.innerText = '📡 BLACK BOX • Em breve você será avisado! Fique atento.';
+                toast.style.position = 'fixed';
+                toast.style.bottom = '20px';
+                toast.style.left = '50%';
+                toast.style.transform = 'translateX(-50%)';
+                toast.style.backgroundColor = '#0c0f1c';
+                toast.style.color = '#aaffff';
+                toast.style.border = '1px solid #00ffff88';
+                toast.style.padding = '12px 24px';
+                toast.style.borderRadius = '40px';
+                toast.style.fontFamily = 'monospace';
+                toast.style.fontWeight = '500';
+                toast.style.backdropFilter = 'blur(12px)';
+                toast.style.zIndex = '999';
+                toast.style.fontSize = '0.85rem';
+                toast.style.boxShadow = '0 0 18px rgba(0,255,200,0.3)';
+                toast.style.letterSpacing = '0.5px';
+                document.body.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    toast.style.transition = 'opacity 0.5s';
+                    setTimeout(() => toast.remove(), 600);
+                }, 2800);
+            });
+        }
+
+        // pequeno efeito de data/hora dinamica? apenas para exibir um contador simbólico de dias?
+        // Criar uma mensagem extra de "lançamento previsto" mais interativa mas sem data fixa, apenas decorativa.
+        const timerDiv = document.querySelector('.timer-note');
+        if(timerDiv) {
+            const futureDate = new Date();
+            futureDate.setDate(futureDate.getDate() + 18); // estimativa ficticia de +18 dias
+            const day = futureDate.getDate();
+            const month = futureDate.toLocaleString('pt-BR', { month: 'short' });
+            // não adicionamos contagem regressiva real para não dar obrigação, só deixar mais imersivo
+            const noteExtra = document.createElement('span');
+            noteExtra.style.display = 'block';
+            noteExtra.style.marginTop = '6px';
+            noteExtra.style.fontSize = '0.7rem';
+            noteExtra.style.color = '#77aaff';
+            noteExtra.innerHTML = `🎯 previsão estimada: ${day} ${month} · 2025`;
+            timerDiv.appendChild(noteExtra);
+        }
+    })();
+</script>
+
+</body>
+</html>
