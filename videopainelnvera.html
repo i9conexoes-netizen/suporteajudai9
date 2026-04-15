@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treinamento Revenda - NvEra</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .card-aula { background: #1e293b; border: 1px solid #334155; transition: all 0.3s; }
+        .card-aula:hover { border-color: #8b5cf6; transform: translateY(-2px); }
+        .gradient-bg { background: linear-gradient(135deg, #6d28d9 0%, #3b82f6 100%); }
+    </style>
+</head>
+<body>
+
+    <header class="bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-black tracking-tighter text-white">INOVE<span class="text-purple-500">PLAY</span></h1>
+            <a href="https://wa.me/SEUNUMERO" class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-full text-sm font-bold transition">
+                <i class="fab fa-whatsapp mr-2"></i>Suporte
+            </a>
+        </div>
+    </header>
+
+    <section class="max-w-5xl mx-auto px-6 py-12">
+        <div class="text-center mb-10">
+            <span class="bg-purple-900 text-purple-200 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">Inicie por aqui</span>
+            <h2 class="text-3xl md:text-4xl font-bold mt-4">Tutorial Completo do Painel</h2>
+            <p class="text-slate-400 mt-2">Assista ao vídeo abaixo para ter uma visão geral de toda a operação.</p>
+        </div>
+        
+        <div class="video-container shadow-2xl border-4 border-slate-800">
+            <iframe src="https://www.youtube.com/embed/03b5wBCjNLs" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 py-12 border-t border-slate-800">
+        <h3 class="text-2xl font-bold mb-8 flex items-center">
+            <i class="fas fa-list-ol text-purple-500 mr-3"></i> Módulo Passo a Passo
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <div class="card-aula p-4 rounded-xl">
+                <div class="video-container mb-4">
+                    <iframe src="https://www.youtube.com/embed/xSIhOFZr7UE" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <span class="text-purple-400 text-xs font-bold uppercase">Aula 01</span>
+                <h4 class="font-bold text-lg mt-1">Adicionar Cliente e Criar Teste</h4>
+            </div>
+
+            <div class="card-aula p-4 rounded-xl">
+                <div class="video-container mb-4">
+                    <iframe src="https://www.youtube.com/embed/BWqQF4w5ZCg" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <span class="text-purple-400 text-xs font-bold uppercase">Aula 02</span>
+                <h4 class="font-bold text-lg mt-1">Entendendo a Lista Completa</h4>
+            </div>
+
+            <div class="card-aula p-4 rounded-xl">
+                <div class="video-container mb-4">
+                    <iframe src="https://www.youtube.com/embed/h_gGy15-c0s" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <span class="text-purple-400 text-xs font-bold uppercase">Aula 03</span>
+                <h4 class="font-bold text-lg mt-1">Enviar Cobrança Automática</h4>
+            </div>
+
+            <div class="card-aula p-4 rounded-xl">
+                <div class="video-container mb-4">
+                    <iframe src="https://www.youtube.com/embed/v8YqqDEJAB8" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <span class="text-purple-400 text-xs font-bold uppercase">Aula 04</span>
+                <h4 class="font-bold text-lg mt-1">Alternando Data de Vencimento</h4>
+            </div>
+
+            <div class="card-aula p-4 rounded-xl">
+                <div class="video-container mb-4">
+                    <iframe src="https://www.youtube.com/embed/w6xLMa1zE8k" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <span class="text-purple-400 text-xs font-bold uppercase">Aula 05</span>
+                <h4 class="font-bold text-lg mt-1">Migrando Cliente</h4>
+            </div>
+
+            <div class="card-aula p-4 rounded-xl">
+                <div class="video-container mb-4">
+                    <iframe src="https://www.youtube.com/embed/4NsgdbAtk5E" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <span class="text-purple-400 text-xs font-bold uppercase">Aula 06</span>
+                <h4 class="font-bold text-lg mt-1">Como criar um Revendedor</h4>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="text-center py-12 text-slate-500 border-t border-slate-800 mt-12">
+        <p class="text-sm tracking-widest uppercase">Plataforma de Treinamento Exclusiva</p>
+        <p class="mt-2 text-xs font-bold">Desenvolvido para Inove Play</p>
+    </footer>
+
+</body>
+</html>
