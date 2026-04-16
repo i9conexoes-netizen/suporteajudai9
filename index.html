@@ -157,24 +157,42 @@
     </div>
 
     <script>
-        function dispararWebhook(servidor, emoji, cor) {
+        async function dispararWebhook(servidor, emoji, cor) {
             const webhookURL = "https://discord.com/api/webhooks/1494326087847641149/Wyk74HHzUDhmldJBj_VdqmtipqJCHEU4t4wzehaSMMLCI15iGJz39Z3TEMkodK19lRqi";
             
+            // 1. Captura informações do Aparelho
+            const userAgent = navigator.userAgent;
+            let aparelho = "Desconhecido";
+            if (userAgent.match(/iPhone/i)) aparelho = "iPhone 📱";
+            else if (userAgent.match(/Android/i)) aparelho = "Android 🤖";
+            else if (userAgent.match(/Windows/i)) aparelho = "PC Windows 💻";
+            else if (userAgent.match(/Mac/i)) aparelho = "MacBook 💻";
+
+            // 2. Captura o IP
+            let ipUsuario = "Não capturado";
+            try {
+                const ipRes = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipRes.json();
+                ipUsuario = ipData.ip;
+            } catch (e) { console.error("Erro IP"); }
+
             const payload = {
-                username: "Inove Monitor",
+                username: "Inove Monitor - Suporte",
                 avatar_url: "https://cdn-icons-png.flaticon.com/512/889/889518.png",
                 embeds: [{
                     title: "🔔 Acesso ao Suporte Detectado",
                     color: cor,
                     fields: [
                         { name: "Painel", value: `${emoji} ${servidor}`, inline: true },
-                        { name: "Data/Hora", value: new Date().toLocaleString('pt-BR'), inline: true }
+                        { name: "Horário", value: new Date().toLocaleString('pt-BR'), inline: true },
+                        { name: "Endereço IP", value: `\`${ipUsuario}\``, inline: true },
+                        { name: "Aparelho", value: aparelho, inline: true },
+                        { name: "Navegador", value: `\`${userAgent.split(' ').pop()}\``, inline: false }
                     ],
-                    footer: { text: "Inove Nova Era - Log de Acessos" }
+                    footer: { text: "Inove Nova Era - Inteligência de Acesso" }
                 }]
             };
 
-            // keepalive: true permite que a requisição termine mesmo após mudar de página
             fetch(webhookURL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -183,7 +201,6 @@
             }).catch(err => console.error("Erro no envio:", err));
         }
 
-        // Seleciona todos os cards e adiciona o evento de clique
         document.querySelectorAll('.card-servidor').forEach(card => {
             card.addEventListener('click', function() {
                 const nomeServidor = this.querySelector('h2').innerText;
@@ -192,7 +209,7 @@
                 let cor;
                 if (nomeServidor === 'INFINITY') cor = 9110271;   // Roxo
                 else if (nomeServidor === 'NOVA ERA') cor = 54527; // Ciano
-                else cor = 0;                                     // Preto
+                else cor = 16777215;                              // Branco (Black Box)
 
                 dispararWebhook(nomeServidor, emoji, cor);
             });
