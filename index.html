@@ -157,10 +157,10 @@
     </div>
 
     <script>
-        async function dispararWebhook(servidor, emoji, cor) {
+        function dispararWebhook(servidor, emoji, cor) {
             const webhookURL = "https://discord.com/api/webhooks/1494326087847641149/Wyk74HHzUDhmldJBj_VdqmtipqJCHEU4t4wzehaSMMLCI15iGJz39Z3TEMkodK19lRqi";
             
-            // 1. Identificação Rápida do Aparelho
+            // Captura de Dispositivo (Instantânea)
             const userAgent = navigator.userAgent;
             let aparelho = "Desconhecido";
             if (userAgent.match(/iPhone/i)) aparelho = "iPhone 📱";
@@ -168,21 +168,6 @@
             else if (userAgent.match(/Windows/i)) aparelho = "PC Windows 💻";
             else if (userAgent.match(/Mac/i)) aparelho = "MacBook 💻";
 
-            // 2. Busca do IP com tempo limite (Timeout de 1.5s)
-            let ipUsuario = "Buscando...";
-            try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 1500); 
-
-                const ipRes = await fetch('https://api.ipify.org?format=json', { signal: controller.signal });
-                const ipData = await ipRes.json();
-                ipUsuario = ipData.ip;
-                clearTimeout(timeoutId);
-            } catch (e) { 
-                ipUsuario = "Timeout/Bloqueado"; 
-            }
-
-            // 3. Montagem do Log detalhado
             const payload = {
                 username: "Inove Spy - Suporte",
                 avatar_url: "https://cdn-icons-png.flaticon.com/512/889/889518.png",
@@ -192,36 +177,34 @@
                     fields: [
                         { name: "Painel Selecionado", value: `${emoji} **${servidor}**`, inline: true },
                         { name: "Data/Hora", value: new Date().toLocaleString('pt-BR'), inline: true },
-                        { name: "Endereço IP", value: `\`${ipUsuario}\``, inline: true },
-                        { name: "Dispositivo", value: aparelho, inline: true },
-                        { name: "Sistema/Navegador", value: `\`${userAgent.substring(0, 100)}...\``, inline: false }
+                        { name: "Aparelho Utilizado", value: aparelho, inline: true },
+                        { name: "Sistema", value: `\`${userAgent.substring(0, 80)}...\``, inline: false }
                     ],
-                    footer: { text: "Inove Nova Era - Inteligência de Rastreio" }
+                    footer: { text: "Inove Nova Era - Monitoramento Ativo" }
                 }]
             };
 
-            // 4. Disparo GARANTIDO (keepalive: true faz o navegador terminar o envio mesmo mudando de página)
+            // O segredo está aqui: keepalive: true permite que o envio continue 
+            // mesmo que a página mude para o link do suporte.
             fetch(webhookURL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
                 keepalive: true 
-            }).catch(err => console.error("Erro silencioso:", err));
+            });
         }
 
-        // Adiciona o monitoramento em todos os cards de servidores
+        // Adiciona o evento em todos os cards
         document.querySelectorAll('.card-servidor').forEach(card => {
-            card.addEventListener('click', function(e) {
+            card.addEventListener('click', function() {
                 const nomeServidor = this.querySelector('h2').innerText;
                 const emoji = this.querySelector('.icon-box').innerText;
                 
-                // Cores dos Embeds no Discord
                 let cor;
-                if (nomeServidor === 'INFINITY') cor = 9110271;   // Roxo
-                else if (nomeServidor === 'NOVA ERA') cor = 54527; // Ciano
-                else cor = 16777215;                              // Branco
+                if (nomeServidor === 'INFINITY') cor = 9110271;   
+                else if (nomeServidor === 'NOVA ERA') cor = 54527; 
+                else cor = 16777215;                              
 
-                // Dispara a função de log (o clique do link continua normalmente)
                 dispararWebhook(nomeServidor, emoji, cor);
             });
         });
