@@ -1,159 +1,47 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inove - Painel de Suporte</title>
-    <style>
-        :root {
-            --primary: #0066ff;
-            --bg: #050505;
-            --card: #121212;
-            --text: #ffffff;
-            --accent-infinity: #8b5cf6;
-            --accent-novaera: #00d4ff;
-            --accent-blackbox: #555555;
+<script>
+    async function notificarClique(servidor, emoji, cor) {
+        const webhookURL = "https://discord.com/api/webhooks/1494326087847641149/Wyk74HHzUDhmldJBj_VdqmtipqJCHEU4t4wzehaSMMLCI15iGJz39Z3TEMkodK19lRqi";
+        
+        const payload = {
+            username: "Inove Suporte - Monitor",
+            avatar_url: "https://cdn-icons-png.flaticon.com/512/889/889518.png",
+            embeds: [{
+                title: "🔔 Novo Acesso ao Suporte",
+                description: `Um revendedor clicou para abrir a central do servidor **${servidor}**.`,
+                color: cor,
+                fields: [
+                    { name: "Servidor Selecionado", value: `${emoji} ${servidor}`, inline: true },
+                    { name: "Horário", value: new Date().toLocaleString('pt-BR'), inline: true }
+                ],
+                footer: { text: "Sistema Inove - Monitoramento em Tempo Real" }
+            }]
+        };
+
+        try {
+            // Envia para o Discord sem travar a navegação do usuário
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+        } catch (error) {
+            console.error('Erro ao enviar webhook:', error);
         }
+    }
 
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background-image: radial-gradient(circle at 50% 50%, #0066ff15 0%, transparent 80%);
-        }
+    // Adiciona o evento de clique em todos os cards
+    document.querySelectorAll('.card-servidor').forEach(card => {
+        card.addEventListener('click', function(e) {
+            const nomeServidor = this.querySelector('h2').innerText;
+            const emoji = this.querySelector('.icon-box').innerText;
+            
+            // Define a cor do Embed baseada no servidor
+            let cor;
+            if (nomeServidor === 'INFINITY') cor = 9133302;   // Roxo
+            else if (nomeServidor === 'NOVA ERA') cor = 54527; // Azul/Ciano
+            else cor = 3355443;                               // Cinza Escuro (Black Box)
 
-        .portal-container {
-            width: 100%;
-            max-width: 1100px;
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        .logo-area h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            letter-spacing: -2px;
-            margin-bottom: 10px;
-        }
-
-        .logo-area span {
-            color: var(--primary);
-        }
-
-        .logo-area p {
-            color: #888;
-            margin-bottom: 60px;
-            font-size: 1.1rem;
-        }
-
-        .grid-servidores {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        .card-servidor {
-            background: var(--card);
-            border: 1px solid #222;
-            border-radius: 24px;
-            padding: 50px 30px;
-            text-decoration: none;
-            color: white;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .card-servidor:hover {
-            transform: translateY(-15px);
-            background: #181818;
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(0, 102, 255, 0.15);
-        }
-
-        .icon-box {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
-        }
-
-        .card-servidor h2 {
-            font-size: 2rem;
-            margin: 10px 0;
-            font-weight: 700;
-        }
-
-        .card-servidor p {
-            color: #666;
-            font-size: 0.95rem;
-        }
-
-        /* Estilos Individuais */
-        .infinity:hover h2 { color: var(--accent-infinity); }
-        .novaera:hover h2 { color: var(--accent-novaera); }
-        .blackbox:hover h2 { color: #fff; }
-
-        .btn-acessar {
-            margin-top: 25px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .card-servidor:hover .btn-acessar {
-            background: var(--primary);
-            border-color: var(--primary);
-        }
-
-        @media (max-width: 600px) {
-            .logo-area h1 { font-size: 2.2rem; }
-            .grid-servidores { grid-template-columns: 1fr; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="portal-container">
-        <div class="logo-area">
-            <p>Selecione o servidor para abrir o suporte técnico</p>
-        </div>
-
-        <div class="grid-servidores">
-            <a href="menuinfinity.html" class="card-servidor infinity">
-                <div class="icon-box">♾️</div>
-                <h2>INFINITY</h2>
-                <p>Suporte Especializado Infinity</p>
-                <div class="btn-acessar">Abrir Central</div>
-            </a>
-
-            <a href="menunvera.html" class="card-servidor novaera">
-                <div class="icon-box">🚀</div>
-                <h2>NOVA ERA</h2>
-                <p>Suporte Especializado Nova Era</p>
-                <div class="btn-acessar">Abrir Central</div>
-            </a>
-
-            <a href="menublackbox.html" class="card-servidor blackbox">
-                <div class="icon-box">⬛</div>
-                <h2>BLACK BOX</h2>
-                <p>Suporte Especializado Black Box</p>
-                <div class="btn-acessar">Abrir Central</div>
-            </a>
-        </div>
-    </div>
-
-</body>
-</html>
+            notificarClique(nomeServidor, emoji, cor);
+        });
+    });
+</script>
