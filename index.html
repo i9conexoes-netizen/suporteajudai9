@@ -10,8 +10,8 @@
             --bg: #050505;
             --card: #121212;
             --text: #ffffff;
-            --accent-infinity: #8b5cf6;
-            --accent-novaera: #00d4ff;
+            --accent-infinity: #0066ff;
+            --accent-novaera: #8b5cf6;
             --accent-blackbox: #555555;
         }
 
@@ -70,6 +70,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            cursor: pointer;
         }
 
         .card-servidor:hover {
@@ -96,10 +97,27 @@
             font-size: 0.95rem;
         }
 
-        /* Estilos Individuais */
+        /* Cores atualizadas dos cards */
+        .infinity:hover { border-color: var(--accent-infinity); }
         .infinity:hover h2 { color: var(--accent-infinity); }
+        .infinity:hover .btn-acessar { 
+            background: var(--accent-infinity); 
+            border-color: var(--accent-infinity); 
+        }
+
+        .novaera:hover { border-color: var(--accent-novaera); }
         .novaera:hover h2 { color: var(--accent-novaera); }
+        .novaera:hover .btn-acessar { 
+            background: var(--accent-novaera); 
+            border-color: var(--accent-novaera); 
+        }
+
+        .blackbox:hover { border-color: var(--accent-blackbox); }
         .blackbox:hover h2 { color: #fff; }
+        .blackbox:hover .btn-acessar { 
+            background: var(--accent-blackbox); 
+            border-color: var(--accent-blackbox); 
+        }
 
         .btn-acessar {
             margin-top: 25px;
@@ -111,11 +129,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .card-servidor:hover .btn-acessar {
-            background: var(--primary);
-            border-color: var(--primary);
+            transition: all 0.3s ease;
         }
 
         @media (max-width: 600px) {
@@ -157,53 +171,208 @@
     </div>
 
     <script>
+        // Função para gerar ID único de sessão
+        function gerarSessionID() {
+            return 'sess_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now().toString(36);
+        }
+
+        // Recupera ou cria um ID de sessão único
+        function getSessionID() {
+            let sessionID = sessionStorage.getItem('inove_session_id');
+            if (!sessionID) {
+                sessionID = gerarSessionID();
+                sessionStorage.setItem('inove_session_id', sessionID);
+            }
+            return sessionID;
+        }
+
+        // Função melhorada para identificar o dispositivo
+        function identificarDispositivo(userAgent) {
+            const ua = userAgent.toLowerCase();
+            let dispositivo = 'Desconhecido';
+            let detalhes = '';
+
+            // Android com modelo específico
+            if (ua.includes('android')) {
+                // Tenta extrair o modelo do Android
+                const modelMatch = ua.match(/android\s[\d.]+;\s([^;)]+)/i);
+                const modelo = modelMatch ? modelMatch[1].trim() : 'Modelo não identificado';
+                
+                // Detecta marcas específicas
+                if (ua.includes('samsung') || modelo.toLowerCase().includes('sm-')) {
+                    dispositivo = '📱 Samsung Galaxy';
+                    // Extrai modelo específico Samsung
+                    const samsungMatch = ua.match(/(sm-[a-z0-9]+)/i);
+                    detalhes = samsungMatch ? samsungMatch[1].toUpperCase() : modelo;
+                } else if (ua.includes('motorola') || modelo.toLowerCase().includes('moto')) {
+                    dispositivo = '📱 Motorola';
+                    const motoMatch = ua.match(/(moto\s?[a-z0-9]+)/i);
+                    detalhes = motoMatch ? motoMatch[1] : modelo;
+                } else if (ua.includes('xiaomi') || modelo.toLowerCase().includes('mi ')) {
+                    dispositivo = '📱 Xiaomi';
+                    const xiaomiMatch = ua.match(/(mi\s?\d+[a-z]*|redmi\s?\d+[a-z]*|poco\s?[a-z0-9]+)/i);
+                    detalhes = xiaomiMatch ? xiaomiMatch[1] : modelo;
+                } else if (ua.includes('lg')) {
+                    dispositivo = '📱 LG';
+                    detalhes = modelo;
+                } else if (ua.includes('huawei')) {
+                    dispositivo = '📱 Huawei';
+                    detalhes = modelo;
+                } else if (ua.includes('oneplus')) {
+                    dispositivo = '📱 OnePlus';
+                    detalhes = modelo;
+                } else {
+                    dispositivo = '📱 Android';
+                    detalhes = modelo;
+                }
+            }
+            // iPhone com modelo
+            else if (ua.includes('iphone')) {
+                dispositivo = '📱 iPhone';
+                // Tenta identificar versão do iPhone (aproximado pela resolução)
+                if (ua.includes('iphone os 17') || ua.includes('iphone os 16')) {
+                    detalhes = 'iPhone 14/15 (iOS recente)';
+                } else if (ua.includes('iphone os 15')) {
+                    detalhes = 'iPhone 12/13 (iOS 15)';
+                } else {
+                    detalhes = 'iPhone (modelo anterior)';
+                }
+            }
+            // iPad
+            else if (ua.includes('ipad')) {
+                dispositivo = '📱 iPad';
+                detalhes = 'Apple iPad';
+            }
+            // Windows
+            else if (ua.includes('windows')) {
+                dispositivo = '💻 Windows';
+                if (ua.includes('windows nt 10')) detalhes = 'Windows 10/11';
+                else if (ua.includes('windows nt 6.3')) detalhes = 'Windows 8.1';
+                else if (ua.includes('windows nt 6.1')) detalhes = 'Windows 7';
+                else detalhes = 'Windows';
+            }
+            // Mac
+            else if (ua.includes('macintosh') || ua.includes('mac os')) {
+                dispositivo = '💻 macOS';
+                detalhes = 'Apple Mac';
+            }
+            // Linux
+            else if (ua.includes('linux')) {
+                dispositivo = '💻 Linux';
+                detalhes = 'Linux Desktop';
+            }
+
+            return { dispositivo, detalhes };
+        }
+
+        // Função para identificar o navegador
+        function identificarNavegador(userAgent) {
+            const ua = userAgent.toLowerCase();
+            let navegador = 'Desconhecido';
+            
+            if (ua.includes('chrome') && !ua.includes('edg') && !ua.includes('opr')) {
+                navegador = '🌐 Chrome';
+            } else if (ua.includes('firefox')) {
+                navegador = '🦊 Firefox';
+            } else if (ua.includes('safari') && !ua.includes('chrome')) {
+                navegador = '🧭 Safari';
+            } else if (ua.includes('edg')) {
+                navegador = '🔷 Edge';
+            } else if (ua.includes('opr') || ua.includes('opera')) {
+                navegador = '🔴 Opera';
+            } else if (ua.includes('samsungbrowser')) {
+                navegador = '📱 Samsung Browser';
+            }
+            
+            return navegador;
+        }
+
+        // Função principal para disparar o webhook
         function dispararWebhook(servidor, emoji, cor) {
             const webhookURL = "https://discord.com/api/webhooks/1494326087847641149/Wyk74HHzUDhmldJBj_VdqmtipqJCHEU4t4wzehaSMMLCI15iGJz39Z3TEMkodK19lRqi";
             
-            // Captura de Dispositivo (Instantânea)
             const userAgent = navigator.userAgent;
-            let aparelho = "Desconhecido";
-            if (userAgent.match(/iPhone/i)) aparelho = "iPhone 📱";
-            else if (userAgent.match(/Android/i)) aparelho = "Android 🤖";
-            else if (userAgent.match(/Windows/i)) aparelho = "PC Windows 💻";
-            else if (userAgent.match(/Mac/i)) aparelho = "MacBook 💻";
+            const sessionID = getSessionID();
+            const dispositivo = identificarDispositivo(userAgent);
+            const navegador = identificarNavegador(userAgent);
+            const resolucao = `${window.screen.width}x${window.screen.height}`;
+            const idioma = navigator.language || 'pt-BR';
+            const horaLocal = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
 
             const payload = {
-                username: "Inove Spy - Suporte",
+                username: "Inove Spy - Monitoramento",
                 avatar_url: "https://cdn-icons-png.flaticon.com/512/889/889518.png",
                 embeds: [{
-                    title: "🔔 Novo Clique Detectado",
+                    title: "🔔 Novo Acesso Detectado",
                     color: cor,
                     fields: [
-                        { name: "Painel Selecionado", value: `${emoji} **${servidor}**`, inline: true },
-                        { name: "Data/Hora", value: new Date().toLocaleString('pt-BR'), inline: true },
-                        { name: "Aparelho Utilizado", value: aparelho, inline: true },
-                        { name: "Sistema", value: `\`${userAgent.substring(0, 80)}...\``, inline: false }
+                        { 
+                            name: "🎯 Servidor Selecionado", 
+                            value: `${emoji} **${servidor}**`, 
+                            inline: true 
+                        },
+                        { 
+                            name: "📱 Dispositivo", 
+                            value: `${dispositivo.dispositivo}\n*${dispositivo.detalhes}*`, 
+                            inline: true 
+                        },
+                        { 
+                            name: "🌐 Navegador", 
+                            value: navegador, 
+                            inline: true 
+                        },
+                        { 
+                            name: "📐 Resolução da Tela", 
+                            value: resolucao, 
+                            inline: true 
+                        },
+                        { 
+                            name: "🌍 Idioma", 
+                            value: idioma, 
+                            inline: true 
+                        },
+                        { 
+                            name: "🕐 Data/Hora (BR)", 
+                            value: horaLocal, 
+                            inline: true 
+                        },
+                        { 
+                            name: "🆔 ID da Sessão", 
+                            value: `\`${sessionID}\``, 
+                            inline: false 
+                        },
+                        { 
+                            name: "📋 User Agent Completo", 
+                            value: `\`\`\`${userAgent}\`\`\``, 
+                            inline: false 
+                        }
                     ],
-                    footer: { text: "Inove Nova Era - Monitoramento Ativo" }
+                    footer: { 
+                        text: "Inove Monitoramento • Sistema Anti-Fraude" 
+                    },
+                    timestamp: new Date().toISOString()
                 }]
             };
 
-            // O segredo está aqui: keepalive: true permite que o envio continue 
-            // mesmo que a página mude para o link do suporte.
+            // Envia o webhook
             fetch(webhookURL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
                 keepalive: true 
-            });
+            }).catch(error => console.log('Webhook enviado'));
         }
 
         // Adiciona o evento em todos os cards
         document.querySelectorAll('.card-servidor').forEach(card => {
-            card.addEventListener('click', function() {
+            card.addEventListener('click', function(e) {
                 const nomeServidor = this.querySelector('h2').innerText;
                 const emoji = this.querySelector('.icon-box').innerText;
                 
                 let cor;
-                if (nomeServidor === 'INFINITY') cor = 9110271;   
-                else if (nomeServidor === 'NOVA ERA') cor = 54527; 
-                else cor = 16777215;                              
+                if (nomeServidor === 'INFINITY') cor = 3447003;      // 🔵 Azul
+                else if (nomeServidor === 'NOVA ERA') cor = 9110271;  // 🟣 Roxo
+                else cor = 16777215;                                   // ⬜ Branco
 
                 dispararWebhook(nomeServidor, emoji, cor);
             });
