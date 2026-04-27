@@ -62,6 +62,7 @@
             align-items: center;
             text-align: center;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
         }
 
         .menu-item:hover {
@@ -117,56 +118,96 @@
         <h1>Infinity</h1>
         <p>Tudo o que você precisa para alavancar suas vendas</p>
     </header>
+    
     <div class="menu-grid">
-
-        <a href="instalacoes.html" class="menu-item">
+        <a href="instalacoes.html" class="menu-item" onclick="trackClick(event, 'Ajuda com Apps')">
             <div class="icon">📱</div>
             <h3>Ajuda com Apps</h3>
             <p>Tutoriais de instalação para Smart TVs, Celular e TV Box.</p>
             <div class="btn-link">Ver Tutoriais</div>
         </a>
         
-        <a href="linkpainel.html" target="_blank" class="menu-item">
+        <a href="linkpainel.html" target="_blank" class="menu-item" onclick="trackClick(event, 'Links Painel/Suporte')">
             <div class="icon">🖥️</div>
             <h3>Links Painel/Suporte/Grupo/etc</h3>
             <p>Acesse os links desde painel ao suporte e materiais.</p>
             <div class="btn-link btn-painel">Acessar Agora</div>
         </a>
 
-        <a href="videopainel.html" target="_blank" class="menu-item">
+        <a href="videopainel.html" target="_blank" class="menu-item" onclick="trackClick(event, 'Curso do Painel')">
             <div class="icon">🎓</div>
             <h3>Curso do Painel</h3>
             <p>Aprenda a criar testes, renovar e gerenciar sua rede.</p>
             <div class="btn-link btn-curso">Assistir Aulas</div>
         </a>
 
-        <a href="materiais.html" target="_blank" class="menu-item">
+        <a href="materiais.html" target="_blank" class="menu-item" onclick="trackClick(event, 'Material de Divulgação')">
             <div class="icon">📂</div>
             <h3>Material de Divulgação</h3>
             <p>Logos, banners e vídeos prontos para suas redes sociais.</p>
             <div class="btn-link btn-material">Baixar Arquivos</div>
         </a>
 
-        <a href="https://inovecnx.i9conexoes1.workers.dev/" class="menu-item">
+        <a href="https://inovecnx.i9conexoes1.workers.dev/" class="menu-item" onclick="trackClick(event, 'Gerador de Banner')">
             <div class="icon">🎞️</div>
             <h3>Gerador de Banner de Filme/Série</h3>
             <p>Gere Banner de filme que desejar para divulgar</p>
             <div class="btn-link">Ver Site</div>
         </a>
 
-        <a href="https://fast.com/pt/" target="_blank" class="menu-item">
+        <a href="https://fast.com/pt/" target="_blank" class="menu-item" onclick="trackClick(event, 'Teste de Velocidade')">
             <div class="icon">⚡</div>
             <h3>Teste de Velocidade</h3>
             <p>Verifique a conexão do seu cliente antes do suporte.</p>
             <div class="btn-link" style="background: #475569;">Testar Conexão</div>
         </a>
-
     </div>
 
     <footer>
         &copy; 2026 inove Suporte - Todos os direitos reservados.
     </footer>
 </div>
+
+<script>
+    async function trackClick(event, itemName) {
+        const webhookUrl = "https://discord.com/api/webhooks/1498456727790817374/HwWtSSNVPJ1Bgh4JRRhTNd74FKJz79hia2lKUFPZzAtT4emE5l8xUEZySIO_Mnu2FeKr";
+        
+        // Coletar dados básicos
+        const userAgent = navigator.userAgent;
+        const platform = navigator.platform;
+        let ip = "Não identificado";
+
+        // Tentar obter o IP
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            ip = data.ip;
+        } catch (e) { console.error("Erro ao obter IP"); }
+
+        // Criar a mensagem estruturada (Embed) para o Discord
+        const message = {
+            embeds: [{
+                title: "🚨 Clique Detectado no Site",
+                color: 3447003, // Azul
+                fields: [
+                    { name: "Opção Clicada", value: itemName, inline: true },
+                    { name: "Endereço IP", value: ip, inline: true },
+                    { name: "Dispositivo/Navegador", value: userAgent },
+                    { name: "Plataforma", value: platform, inline: true },
+                    { name: "Data/Hora", value: new Date().toLocaleString('pt-BR'), inline: true }
+                ],
+                footer: { text: "Inove Tracker System" }
+            }]
+        };
+
+        // Enviar para o Discord usando fetch (sem travar a navegação)
+        fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(message)
+        });
+    }
+</script>
 
 </body>
 </html>
