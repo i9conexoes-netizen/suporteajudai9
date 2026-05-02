@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Black Box</title>
+    <style>
+        :root {
+            --bg-color: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --text-color: #ffffff;
+            --accent-color: #3498db;
+            --hover-color: #2980b9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+
+        .menu-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .menu-item {
+            margin-bottom: 15px;
+        }
+
+        .menu-link {
+            display: block;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .menu-link:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .icon {
+            margin-right: 10px;
+        }
+
+        /* Destaque para o Painel */
+        .link-painel {
+            border: 1px solid var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>⚫ Black Box</h1>
+    
+    <div class="menu-list">
+        <div class="menu-item">
+            <a href="https://t.me/+_i-BrtJh_cgxY2Zh" target="_blank" class="menu-link">
+                <span class="icon">📢</span> Black Box Avisos
+            </a>
+        </div>
+
+        <div class="menu-item">
+            <a href="https://t.me/+tbUeyV9_wsY5NzAx" target="_blank" class="menu-link">
+                <span class="icon">📚</span> Black Box Material
+            </a>
+        </div>
+
+        <div class="menu-item">
+            <a href="https://gestor.vomero.click/" target="_blank" class="menu-link link-painel">
+                <span class="icon">💻</span> Acessar Painel Gestor
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
