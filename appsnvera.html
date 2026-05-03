@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NovaEra - Guia Apps</title>
+    <!-- Biblioteca para Busca Inteligente (Fuzzy Search) -->
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
     <style>
         :root {
             --primary: #3b82f6;
@@ -67,10 +69,9 @@
         .instrucoes-box {
             background: #0f172a; padding: 20px; border-radius: 15px; margin-top: 15px;
             border-left: 5px solid var(--accent); color: #cbd5e1; font-size: 1rem; line-height: 1.6; white-space: pre-wrap;
-            word-break: break-all; /* Garante que links longos não quebrem o layout */
+            word-break: break-all;
         }
 
-        /* Estilo para os links clicáveis */
         .instrucoes-box a {
             color: var(--primary);
             text-decoration: underline;
@@ -94,7 +95,7 @@
     </header>
 
     <div id="searchWrapper" class="search-container">
-        <input type="text" id="deviceSearch" placeholder="🔍 Digite para pesquisar (Ex: Samsung, Xbox, Firestick...)" onkeyup="filterDevices()">
+        <input type="text" id="deviceSearch" placeholder="🔍 Digite para pesquisar (Ex: Samsung, Xbox, Firestick...)" onkeyup="filterDevices()" autocomplete="off" spellcheck="false">
     </div>
 
     <div id="categoryMenu">
@@ -177,7 +178,6 @@
         ],
     };
 
-    // FUNÇÃO QUE TRANSFORMA TEXTO EM LINK CLICÁVEL
     function linkify(text) {
         const urlPattern = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
         return text.replace(urlPattern, '<a href="$1" target="_blank">$1</a>');
@@ -191,11 +191,29 @@
         });
     }
 
+    // FUNÇÃO DE BUSCA INTELIGENTE (FUZZY SEARCH)
     function filterDevices() {
-        const input = document.getElementById('deviceSearch').value.toLowerCase();
+        const input = document.getElementById('deviceSearch').value;
         const btns = document.getElementsByClassName('btn-cat');
+        
+        if (!input) {
+            for (let btn of btns) btn.classList.remove('hidden');
+            return;
+        }
+
+        const list = Object.keys(devices).map(name => ({ name }));
+        const options = {
+            keys: ['name'],
+            threshold: 0.4,
+            distance: 100
+        };
+
+        const fuse = new Fuse(list, options);
+        const results = fuse.search(input).map(r => r.item.name);
+
         for (let btn of btns) {
-            btn.classList.toggle('hidden', !btn.innerText.toLowerCase().includes(input));
+            const btnText = btn.innerText;
+            btn.classList.toggle('hidden', !results.includes(btnText));
         }
     }
 
@@ -227,7 +245,6 @@
 
     function openModal(app) {
         const body = document.getElementById('modalBody');
-        // AQUI APLICAMOS O LINKIFY NO APP.INFO
         const infoComLinks = linkify(app.info);
 
         body.innerHTML = `
