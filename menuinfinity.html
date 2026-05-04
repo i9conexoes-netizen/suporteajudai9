@@ -169,7 +169,7 @@
 </div>
 
 <script>
-    // Dicionário mapeando os Estados (UF) aos seus respectivos DDDs
+    // Dicionário de DDDs
     const mapDDD = {
         "AC": "68", "AL": "82", "AP": "96", "AM": "92, 97", "BA": "71, 73, 74, 75, 77",
         "CE": "85, 88", "DF": "61", "ES": "27, 28", "GO": "62, 64", "MA": "98, 99",
@@ -180,8 +180,27 @@
         "SP": "11 a 19", "SE": "79", "TO": "63"
     };
 
+    // Tradutor de Nome de Estado para Sigla
+    const mapUF = {
+        "Acre": "AC", "Alagoas": "AL", "Amapa": "AP", "Amapá": "AP", "Amazonas": "AM",
+        "Bahia": "BA", "Ceara": "CE", "Ceará": "CE", "Distrito Federal": "DF",
+        "Espirito Santo": "ES", "Espírito Santo": "ES", "Goias": "GO", "Goiás": "GO",
+        "Maranhao": "MA", "Maranhão": "MA", "Mato Grosso": "MT", "Mato Grosso do Sul": "MS",
+        "Minas Gerais": "MG", "Para": "PA", "Pará": "PA", "Paraiba": "PB", "Paraíba": "PB",
+        "Parana": "PR", "Paraná": "PR", "Pernambuco": "PE", "Piaui": "PI", "Piauí": "PI",
+        "Rio de Janeiro": "RJ", "Rio Grande do Norte": "RN", "Rio Grande do Sul": "RS",
+        "Rondonia": "RO", "Rondônia": "RO", "Roraima": "RR", "Santa Catarina": "SC",
+        "Sao Paulo": "SP", "São Paulo": "SP", "Sergipe": "SE", "Tocantins": "TO"
+    };
+
+    // Função que garante que a sigla saia correta
+    function getUF(nomeRegiao) {
+        if (!nomeRegiao) return "??";
+        if (nomeRegiao.length === 2) return nomeRegiao.toUpperCase();
+        return mapUF[nomeRegiao] || "??";
+    }
+
     async function trackClick(event, itemName) {
-        // Previne o redirecionamento imediato
         event.preventDefault();
         
         const targetUrl = event.currentTarget.href;
@@ -193,35 +212,48 @@
         let estado = "??";
         let ddd = "Desconhecido";
 
+        // CASCATA DE APIS: Se uma falhar, pula pra outra automaticamente
         try {
-            // Nova API, mais estável e confiável para capturar Cidade e UF
-            const response = await fetch('https://ipapi.co/json/');
-            const data = await response.json();
-            
-            if(data.ip && data.region_code) {
-                ip = data.ip;
-                cidade = data.city || "Desconhecida";
-                estado = data.region_code; 
-                ddd = mapDDD[estado] || "Não encontrado";
-            } else {
-                throw new Error("Falha ao ler os dados completos");
-            }
-        } catch (e) { 
-            console.log("Erro na API principal de localização. Tentando fallback...", e); 
+            // TENTATIVA 1: ipinfo.io (Extremamente estável, raro de ser bloqueada)
+            const r1 = await fetch('https://ipinfo.io/json');
+            const d1 = await r1.json();
+            ip = d1.ip; 
+            cidade = d1.city; 
+            estado = getUF(d1.region);
+        } catch (e1) {
             try {
-                // Fallback caso a API principal caia: Tenta pegar pelo menos o IP
-                const fbResponse = await fetch('https://api.ipify.org?format=json');
-                const fbData = await fbResponse.json();
-                ip = fbData.ip;
-            } catch (err) { 
-                console.log("Todas as APIs de IP falharam."); 
+                // TENTATIVA 2: db-ip (Excelente alternativa)
+                const r2 = await fetch('https://api.db-ip.com/v2/free/self');
+                const d2 = await r2.json();
+                ip = d2.ipAddress; 
+                cidade = d2.city; 
+                estado = getUF(d2.stateProv);
+            } catch (e2) {
+                try {
+                    // TENTATIVA 3: ipwhois (A que tentamos antes)
+                    const r3 = await fetch('https://ipwhois.app/json/');
+                    const d3 = await r3.json();
+                    ip = d3.ip; 
+                    cidade = d3.city; 
+                    estado = getUF(d3.region_code || d3.region);
+                } catch (e3) {
+                    // PLANO DE EMERGÊNCIA FINAL: Pega só o IP
+                    try {
+                        const fb = await fetch('https://api.ipify.org?format=json');
+                        const fbd = await fb.json();
+                        ip = fbd.ip;
+                    } catch(e4) {}
+                }
             }
         }
+
+        // Tenta achar o DDD baseado na sigla do estado retornada
+        ddd = mapDDD[estado] || "Não encontrado";
 
         const message = {
             embeds: [{
                 title: "🚨 Clique Detectado",
-                color: 16711680, // Vermelho para destaque
+                color: 16711680,
                 fields: [
                     { name: "Opção Acessada", value: itemName, inline: true },
                     { name: "IP do Usuário", value: ip, inline: true },
@@ -242,9 +274,7 @@
                 body: JSON.stringify(message),
                 keepalive: true
             });
-        } catch (err) {
-            console.error("Erro no envio do webhook");
-        }
+        } catch (err) {}
 
         // Redireciona o usuário
         if (isBlank) {
