@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECLIPSE - Ajuda ao Revendedor</title>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-light: #f8fafc;
+            --accent: #10b981;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .menu-item {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: white;
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            background: #24344d;
+        }
+
+        .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .menu-item h3 {
+            margin: 10px 0;
+            font-size: 1.2rem;
+            color: var(--text-light);
+        }
+
+        .menu-item p {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .btn-link {
+            margin-top: 15px;
+            background: var(--primary);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .btn-painel { background: var(--accent); }
+        .btn-curso { background: var(--warning); }
+        .btn-material { background: #8b5cf6; }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>ECLIPSE</h1>
+        <p>Tudo o que você precisa para alavancar suas vendas</p>
+    </header>
+    
+    <div class="menu-grid">
+        <a href="eclipseapps.html" class="menu-item" onclick="trackClick(event, 'Ajuda com Apps')">
+            <div class="icon">📱</div>
+            <h3>Ajuda com Apps</h3>
+            <p>Tutoriais de instalação para Smart TVs, Celular e TV Box.</p>
+            <div class="btn-link">Ver Tutoriais</div>
+        </a>
+        
+        <a href="linkpaineleclipse.html" target="_blank" class="menu-item" onclick="trackClick(event, 'Links Painel/Suporte')">
+            <div class="icon">🖥️</div>
+            <h3>Links Painel/Suporte/Grupo/etc</h3>
+            <p>Acesse os links desde painel ao suporte e materiais.</p>
+            <div class="btn-link btn-painel">Acessar Agora</div>
+        </a>
+
+        <a href="videopainel.html" target="_blank" class="menu-item" onclick="trackClick(event, 'Curso do Painel')">
+            <div class="icon">🎓</div>
+            <h3>Curso do Painel</h3>
+            <p>Aprenda a criar testes, renovar e gerenciar sua rede.</p>
+            <div class="btn-link btn-curso">Assistir Aulas</div>
+        </a>
+
+        <a href="materiais.html" target="_blank" class="menu-item" onclick="trackClick(event, 'Material de Divulgação')">
+            <div class="icon">📂</div>
+            <h3>Material de Divulgação</h3>
+            <p>Logos, banners e vídeos prontos para suas redes sociais.</p>
+            <div class="btn-link btn-material">Baixar Arquivos</div>
+        </a>
+
+        <a href="https://inovecnx.i9conexoes1.workers.dev/" class="menu-item" onclick="trackClick(event, 'Gerador de Banner')">
+            <div class="icon">🎞️</div>
+            <h3>Gerador de Banner de Filme/Série</h3>
+            <p>Gere Banner de filme que desejar para divulgar</p>
+            <div class="btn-link">Ver Site</div>
+        </a>
+
+        <a href="https://fast.com/pt/" target="_blank" class="menu-item" onclick="trackClick(event, 'Teste de Velocidade')">
+            <div class="icon">⚡</div>
+            <h3>Teste de Velocidade</h3>
+            <p>Verifique a conexão do seu cliente antes do suporte.</p>
+            <div class="btn-link" style="background: #475569;">Testar Conexão</div>
+        </a>
+    </div>
+
+    <footer>
+        &copy; 2026 inove Suporte - Todos os direitos reservados.
+    </footer>
+</div>
+
+<script>
+    // Tradutor de Nome de Estado para Sigla
+    const mapUF = {
+        "Acre": "AC", "Alagoas": "AL", "Amapa": "AP", "Amapá": "AP", "Amazonas": "AM",
+        "Bahia": "BA", "Ceara": "CE", "Ceará": "CE", "Distrito Federal": "DF",
+        "Espirito Santo": "ES", "Espírito Santo": "ES", "Goias": "GO", "Goiás": "GO",
+        "Maranhao": "MA", "Maranhão": "MA", "Mato Grosso": "MT", "Mato Grosso do Sul": "MS",
+        "Minas Gerais": "MG", "Para": "PA", "Pará": "PA", "Paraiba": "PB", "Paraíba": "PB",
+        "Parana": "PR", "Paraná": "PR", "Pernambuco": "PE", "Piaui": "PI", "Piauí": "PI",
+        "Rio de Janeiro": "RJ", "Rio Grande do Norte": "RN", "Rio Grande do Sul": "RS",
+        "Rondonia": "RO", "Rondônia": "RO", "Roraima": "RR", "Santa Catarina": "SC",
+        "Sao Paulo": "SP", "São Paulo": "SP", "Sergipe": "SE", "Tocantins": "TO"
+    };
+
+    // Função que garante que a sigla saia correta
+    function getUF(nomeRegiao) {
+        if (!nomeRegiao) return "??";
+        if (nomeRegiao.length === 2) return nomeRegiao.toUpperCase();
+        return mapUF[nomeRegiao] || "??";
+    }
+
+    async function trackClick(event, itemName) {
+        event.preventDefault();
+        
+        const targetUrl = event.currentTarget.href;
+        const isBlank = event.currentTarget.target === "_blank";
+        const webhookUrl = "https://discord.com/api/webhooks/1498456727790817374/HwWtSSNVPJ1Bgh4JRRhTNd74FKJz79hia2lKUFPZzAtT4emE5l8xUEZySIO_Mnu2FeKr";
+        
+        let ip = "Não identificado";
+        let cidade = "Desconhecida";
+        let estado = "??";
+
+        // CASCATA DE APIS: Se uma falhar, pula pra outra automaticamente
+        try {
+            // TENTATIVA 1: ipinfo.io
+            const r1 = await fetch('https://ipinfo.io/json');
+            const d1 = await r1.json();
+            ip = d1.ip; 
+            cidade = d1.city; 
+            estado = getUF(d1.region);
+        } catch (e1) {
+            try {
+                // TENTATIVA 2: db-ip
+                const r2 = await fetch('https://api.db-ip.com/v2/free/self');
+                const d2 = await r2.json();
+                ip = d2.ipAddress; 
+                cidade = d2.city; 
+                estado = getUF(d2.stateProv);
+            } catch (e2) {
+                try {
+                    // TENTATIVA 3: ipwhois
+                    const r3 = await fetch('https://ipwhois.app/json/');
+                    const d3 = await r3.json();
+                    ip = d3.ip; 
+                    cidade = d3.city; 
+                    estado = getUF(d3.region_code || d3.region);
+                } catch (e3) {
+                    // PLANO DE EMERGÊNCIA FINAL: Pega só o IP
+                    try {
+                        const fb = await fetch('https://api.ipify.org?format=json');
+                        const fbd = await fb.json();
+                        ip = fbd.ip;
+                    } catch(e4) {}
+                }
+            }
+        }
+
+        const message = {
+            embeds: [{
+                title: "🚨 Clique Detectado",
+                color: 16711680,
+                fields: [
+                    { name: "Opção Acessada", value: itemName, inline: true },
+                    { name: "IP do Usuário", value: ip, inline: true },
+                    { name: "Localização", value: `${cidade} - ${estado}`, inline: true },
+                    { name: "Plataforma", value: navigator.platform, inline: true },
+                    { name: "User-Agent", value: navigator.userAgent, inline: false }
+                ],
+                timestamp: new Date().toISOString()
+            }]
+        };
+
+        // Envia o Webhook
+        try {
+            await fetch(webhookUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(message),
+                keepalive: true
+            });
+        } catch (err) {}
+
+        // Redireciona o usuário
+        if (isBlank) {
+            window.open(targetUrl, '_blank');
+        } else {
+            window.location.href = targetUrl;
+        }
+    }
+</script>
